@@ -1,0 +1,7 @@
+#默认使用配置
+spring:
+  profiles:
+    active: @profileActive@
+    include: dao-@profileActive@,service-@profileActive@
+server:
+  port: 8081

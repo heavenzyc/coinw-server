@@ -1,0 +1,11 @@
+spring:
+  datasource:
+    url: jdbc:mysql://192.168.2.100:3306/coinw
+    username: root
+    password: heaven
+    driver-class-name: com.mysql.jdbc.Driver
+    type: com.alibaba.druid.pool.DruidDataSource
+
+mybatis:
+  mapper-locations: classpath:mapping/*.xml  #注意：一定要对应mapper映射xml文件的所在路径
+  type-aliases-package: com.heaven.springbootdemo.entity  # 注意：对应实体类的路径

@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.heaven.springbootdemo.dao.CoinwTrendMapper" >
+  <resultMap id="BaseResultMap" type="com.heaven.springbootdemo.entity.CoinwTrend" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="board" property="board" jdbcType="VARCHAR" />
+    <result column="latest_price" property="latestPrice" jdbcType="REAL" />
+    <result column="low" property="low" jdbcType="REAL" />
+    <result column="high" property="high" jdbcType="REAL" />
+    <result column="volume" property="volume" jdbcType="DECIMAL" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="modify_time" property="modifyTime" jdbcType="TIMESTAMP" />
+    <result column="dt" property="dt" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, board, latest_price, low, high, volume, create_time, modify_time, dt
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from coinw_trend
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from coinw_trend
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.heaven.springbootdemo.entity.CoinwTrend" >
+    insert into coinw_trend (id, board, latest_price, 
+      low, high, volume, create_time, 
+      modify_time, dt)
+    values (#{id,jdbcType=INTEGER}, #{board,jdbcType=VARCHAR}, #{latestPrice,jdbcType=REAL}, 
+      #{low,jdbcType=REAL}, #{high,jdbcType=REAL}, #{volume,jdbcType=DECIMAL}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{modifyTime,jdbcType=TIMESTAMP}, #{dt,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.heaven.springbootdemo.entity.CoinwTrend" >
+    insert into coinw_trend
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="board != null" >
+        board,
+      </if>
+      <if test="latestPrice != null" >
+        latest_price,
+      </if>
+      <if test="low != null" >
+        low,
+      </if>
+      <if test="high != null" >
+        high,
+      </if>
+      <if test="volume != null" >
+        volume,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="modifyTime != null" >
+        modify_time,
+      </if>
+      <if test="dt != null" >
+        dt,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="board != null" >
+        #{board,jdbcType=VARCHAR},
+      </if>
+      <if test="latestPrice != null" >
+        #{latestPrice,jdbcType=REAL},
+      </if>
+      <if test="low != null" >
+        #{low,jdbcType=REAL},
+      </if>
+      <if test="high != null" >
+        #{high,jdbcType=REAL},
+      </if>
+      <if test="volume != null" >
+        #{volume,jdbcType=DECIMAL},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifyTime != null" >
+        #{modifyTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="dt != null" >
+        #{dt,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.heaven.springbootdemo.entity.CoinwTrend" >
+    update coinw_trend
+    <set >
+      <if test="board != null" >
+        board = #{board,jdbcType=VARCHAR},
+      </if>
+      <if test="latestPrice != null" >
+        latest_price = #{latestPrice,jdbcType=REAL},
+      </if>
+      <if test="low != null" >
+        low = #{low,jdbcType=REAL},
+      </if>
+      <if test="high != null" >
+        high = #{high,jdbcType=REAL},
+      </if>
+      <if test="volume != null" >
+        volume = #{volume,jdbcType=DECIMAL},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifyTime != null" >
+        modify_time = #{modifyTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="dt != null" >
+        dt = #{dt,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.heaven.springbootdemo.entity.CoinwTrend" >
+    update coinw_trend
+    set board = #{board,jdbcType=VARCHAR},
+      latest_price = #{latestPrice,jdbcType=REAL},
+      low = #{low,jdbcType=REAL},
+      high = #{high,jdbcType=REAL},
+      volume = #{volume,jdbcType=DECIMAL},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      modify_time = #{modifyTime,jdbcType=TIMESTAMP},
+      dt = #{dt,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+  <select id="selectAll" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from coinw_trend
+  </select>
+</mapper>
