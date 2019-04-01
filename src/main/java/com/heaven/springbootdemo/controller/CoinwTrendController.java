@@ -39,7 +39,7 @@ public class CoinwTrendController {
     public List<CoinwTrendVO> getCoinwTrendList(@PathVariable String board) {
         List<CoinwTrend> list = coinwTrendService.getAll();
         List<CoinwTrendVO> cts = new ArrayList<>();
-        list.stream().filter(s -> s.getBoard().equals(board)).forEach(x -> build(x, cts));
+        list.stream().filter(s -> s.getBoard().equals(board.toUpperCase())).forEach(x -> build(x, cts));
         return cts;
     }
 
