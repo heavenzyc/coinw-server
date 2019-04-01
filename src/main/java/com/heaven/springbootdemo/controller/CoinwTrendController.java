@@ -43,7 +43,6 @@ public class CoinwTrendController {
         return cts;
     }
 
-
     private List<CoinwTrendVO> build(CoinwTrend ct, List<CoinwTrendVO> vos) {
         CoinwTrendVO vo = new CoinwTrendVO();
         vo.setDt(ct.getDt());
