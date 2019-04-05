@@ -1,5 +1,8 @@
 package com.heaven.springbootdemo.controller;
 
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
+import com.heaven.springbootdemo.common.Message;
 import com.heaven.springbootdemo.entity.CoinwTrend;
 import com.heaven.springbootdemo.entity.vo.CoinwTrendVO;
 import com.heaven.springbootdemo.service.CoinwTrendService;
@@ -10,6 +13,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -36,7 +40,7 @@ public class CoinwTrendController {
 
     @RequestMapping(value = "/search/{board}")
     @ResponseBody
-    public List<CoinwTrendVO> getCoinwTrendList(@PathVariable String board) {
+    public List<CoinwTrendVO> searchTrendList(@PathVariable String board) {
         List<CoinwTrend> list = coinwTrendService.getAll();
         List<CoinwTrendVO> cts = new ArrayList<>();
         list.stream().filter(s -> s.getBoard().equals(board)).forEach(x -> build(x, cts));
@@ -49,5 +53,69 @@ public class CoinwTrendController {
         vo.setLow(ct.getLow());
         vos.add(vo);
         return vos;
+    }
+
+    private JSONArray buildDate(CoinwTrend ct, JSONArray date) {
+        date.add(ct.getDt());
+        return date;
+    }
+
+    private JSONArray buildLow(CoinwTrend ct, JSONArray low) {
+        low.add(ct.getLow());
+        return low;
+    }
+
+    private JSONArray buildHigh(CoinwTrend ct, JSONArray high) {
+        high.add(ct.getHigh());
+        return high;
+    }
+
+    @RequestMapping(value = "/json/{board}")
+    @ResponseBody
+    public Message getJson(@PathVariable String board, HttpServletResponse response) {
+        Message msg = new Message();
+        msg.setCode("0000");
+        JSONObject data =  new JSONObject();
+        List<CoinwTrend> list = coinwTrendService.getAll();
+
+        JSONArray date = new JSONArray();
+        list.stream().filter(s -> s.getBoard().equals(board.toUpperCase())).forEach(x -> buildDate(x, date));
+        JSONArray value = new JSONArray();
+        list.stream().filter(s -> s.getBoard().equals(board.toUpperCase())).forEach(x -> buildLow(x, value));
+        data.put("date", date);
+        data.put("value", value);
+        msg.setData(data);
+        msg.setMsg("success");
+        response.setHeader("Access-Control-Allow-Origin", "*");
+        response.setHeader("Cache-Control","no-cache");
+        return msg;
+    }
+
+    @RequestMapping(value = "/trend/{board}")
+    @ResponseBody
+    public Message getAllTrend(@PathVariable String board, HttpServletResponse response) {
+//        String[] boards = {"AE", "BTC", "COINS", "ENJ", "EOS", "ETH", "LTC", "OMG", "TNT"};
+        List<CoinwTrend> trends = coinwTrendService.getByBoard(board);
+        Message msg = new Message();
+        msg.setCode("0000");
+        JSONObject data =  new JSONObject();
+        JSONArray date = new JSONArray();
+        trends.stream().forEach(x -> buildDate(x, date));
+        data.put("date", date);
+
+        JSONArray low = new JSONArray();
+        trends.stream().forEach(x -> buildLow(x, low));
+        data.put("low", low);
+
+        JSONArray high = new JSONArray();
+        trends.stream().forEach(x -> buildHigh(x, high));
+        data.put("high", high);
+
+        data.put("name", board);
+        msg.setData(data);
+        msg.setMsg("success");
+        response.setHeader("Access-Control-Allow-Origin", "*");
+        response.setHeader("Cache-Control","no-cache");
+        return msg;
     }
 }

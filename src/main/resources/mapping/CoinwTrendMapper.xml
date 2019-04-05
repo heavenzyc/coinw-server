@@ -142,4 +142,10 @@
     <include refid="Base_Column_List" />
     from coinw_trend
   </select>
+
+  <select id="selectByBoard" resultMap="BaseResultMap">
+    select
+    dt, low, high
+    from coinw_trend where board = #{board,jdbcType=VARCHAR}  order by dt
+  </select>
 </mapper>

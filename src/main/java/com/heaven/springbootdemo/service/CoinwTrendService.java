@@ -9,4 +9,6 @@ public interface CoinwTrendService {
     List<CoinwTrend> getAll();
 
     CoinwTrend getById(Integer id);
+
+    List<CoinwTrend> getByBoard(String board);
 }

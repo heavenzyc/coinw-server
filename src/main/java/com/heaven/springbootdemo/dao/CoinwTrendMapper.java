@@ -18,4 +18,6 @@ public interface CoinwTrendMapper {
     int updateByPrimaryKey(CoinwTrend record);
 
     List<CoinwTrend> selectAll();
+
+    List<CoinwTrend> selectByBoard(String board);
 }

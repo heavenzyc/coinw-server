@@ -23,4 +23,9 @@ public class CoinwTrendServiceImpl implements CoinwTrendService {
     public CoinwTrend getById(Integer id) {
         return coinwTrendMapper.selectByPrimaryKey(id);
     }
+
+    @Override
+    public List<CoinwTrend> getByBoard(String board) {
+        return coinwTrendMapper.selectByBoard(board);
+    }
 }
