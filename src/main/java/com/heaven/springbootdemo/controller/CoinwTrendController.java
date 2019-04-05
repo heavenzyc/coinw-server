@@ -56,7 +56,7 @@ public class CoinwTrendController {
     }
 
     private JSONArray buildDate(CoinwTrend ct, JSONArray date) {
-        date.add(ct.getDt());
+        date.add(ct.getDt().substring(4));
         return date;
     }
 
@@ -68,27 +68,6 @@ public class CoinwTrendController {
     private JSONArray buildHigh(CoinwTrend ct, JSONArray high) {
         high.add(ct.getHigh());
         return high;
-    }
-
-    @RequestMapping(value = "/json/{board}")
-    @ResponseBody
-    public Message getJson(@PathVariable String board, HttpServletResponse response) {
-        Message msg = new Message();
-        msg.setCode("0000");
-        JSONObject data =  new JSONObject();
-        List<CoinwTrend> list = coinwTrendService.getAll();
-
-        JSONArray date = new JSONArray();
-        list.stream().filter(s -> s.getBoard().equals(board.toUpperCase())).forEach(x -> buildDate(x, date));
-        JSONArray value = new JSONArray();
-        list.stream().filter(s -> s.getBoard().equals(board.toUpperCase())).forEach(x -> buildLow(x, value));
-        data.put("date", date);
-        data.put("value", value);
-        msg.setData(data);
-        msg.setMsg("success");
-        response.setHeader("Access-Control-Allow-Origin", "*");
-        response.setHeader("Cache-Control","no-cache");
-        return msg;
     }
 
     @RequestMapping(value = "/trend/{board}")
